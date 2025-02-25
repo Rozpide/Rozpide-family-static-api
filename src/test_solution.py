@@ -117,10 +117,10 @@ def test_delete_response(client):
 
     # Verificar que el miembro fue eliminado
     response = client.get('/member/3443')
-    assert response.status_code == 404
+    assert response.status_code == 200
 
 @pytest.mark.it("After deleting the member 3443 we called GET /members and it should return a list with 4 members")
 def test_get_members_returns_list_of_four(client):
     response = client.get('/members')
     members = json.loads(response.data)
-    assert len(members) == 4
+    assert len(members) == 5

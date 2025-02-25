@@ -54,17 +54,9 @@ def get_member(id):
 # Endpoint para añadir un nuevo miembro a la familia
 @app.route('/member', methods=['POST'])
 def add_member():
-    data = request.get_json()
-    if not data:
-        return jsonify({"error": "No input data provided"}), 400
-
-    required_fields = ["first_name"]
-    for field in required_fields:
-        if field not in data:
-            return jsonify({"error": f"Missing field: {field}"}), 400
-
-    jackson_family.add_member(data)
-    return jsonify({"message": "Member added successfully"}), 200
+    member = request.get_json()
+    jackson_family.add_member(member)
+    return jsonify(member), 200  # Asegúrate de devolver un estado 200
 
 # Endpoint para actualizar un miembro de la familia
 @app.route('/member/<int:id>', methods=['PUT'])
