@@ -3,7 +3,7 @@ from random import randint
 class FamilyStructure:
     def __init__(self, last_name):
         self.last_name = last_name
-        self._next_id = 3442
+        self._next_id = 3439
         self._members = []
     
     

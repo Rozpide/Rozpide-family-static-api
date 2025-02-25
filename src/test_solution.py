@@ -35,7 +35,7 @@ def test_add_implementation(client):
 @pytest.mark.it("Method POST /member should return something, NOT EMPTY")
 def test_add_empty_reponse_body(client):
     response = client.post('/member', json={
-		"first_name": "Sandra",
+		"first_name": "Tommy",
 		"age": 12,
         "id": 4446,
 		"lucky_numbers": [12,34,33,45,32,12]
@@ -97,14 +97,27 @@ def test_delete_member(client):
 
 @pytest.mark.it("Method DELETE /member/3443 should return dictionary with 'done' key")
 def test_delete_response(client):
-    client.post('/member', json={
-		"first_name": "Tommy",
+    # Añadir el miembro
+    response = client.post('/member', json={
+        "first_name": "Tommy",
         "id": 3443,
-		"age": 23,
-		"lucky_numbers": [34,65,23,4,6]
-	})
+        "age": 23,
+        "lucky_numbers": [34, 65, 23, 4, 6]
+    })
+    assert response.status_code == 200
+
+    # Verificar que el miembro fue añadido
+    response = client.get('/member/3443')
+    assert response.status_code == 200
+
+    # Eliminar el miembro
     response = client.delete('/member/3443')
+    assert response.status_code == 200
     assert response.json["done"] == True
+
+    # Verificar que el miembro fue eliminado
+    response = client.get('/member/3443')
+    assert response.status_code == 404
 
 @pytest.mark.it("After deleting the member 3443 we called GET /members and it should return a list with 4 members")
 def test_get_members_returns_list_of_four(client):

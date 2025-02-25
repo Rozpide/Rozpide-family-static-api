@@ -16,9 +16,11 @@ jackson_family = FamilyStructure("Jackson")
 
 # Miembros iniciales de la familia
 initial_members = [
-    {"first_name": "John", "age": 33, "lucky_numbers": [7, 13, 22]},
-    {"first_name": "Jane", "age": 35, "lucky_numbers": [10, 14, 3]},
-    {"first_name": "Jimmy", "age": 5, "lucky_numbers": [1]}
+    {"first_name": "John", "age": 33, "lucky_numbers": [7, 13, 22], "id": 3439},
+    {"first_name": "Jane", "age": 35, "lucky_numbers": [10, 14, 3], "id": 3440},
+    {"first_name": "Jimmy", "age": 5, "lucky_numbers": [1], "id": 3441},
+   
+    
 ]
 
 for member in initial_members:
@@ -41,9 +43,9 @@ def get_all_members():
     return jsonify(members), 200
 
 # Endpoint para obtener un miembro específico de la familia
-@app.route('/member/<int:member_id>', methods=['GET'])
-def get_member(member_id):
-    member = jackson_family.get_member(member_id)
+@app.route('/member/<int:id>', methods=['GET'])
+def get_member(id):
+    member = jackson_family.get_member(id)
     if member:
         return jsonify(member), 200
     else:
@@ -56,7 +58,7 @@ def add_member():
     if not data:
         return jsonify({"error": "No input data provided"}), 400
 
-    required_fields = ["first_name", "age", "lucky_numbers"]
+    required_fields = ["first_name"]
     for field in required_fields:
         if field not in data:
             return jsonify({"error": f"Missing field: {field}"}), 400
@@ -78,12 +80,12 @@ def update_member(id):
         return jsonify({"error": "Member not found"}), 404
 
 # Endpoint para eliminar un miembro de la familia
-@app.route('/member/<int:member_id>', methods=['DELETE'])
-def delete_member(member_id):
-    member = jackson_family.get_member(member_id)
+@app.route('/member/<int:id>', methods=['DELETE'])
+def delete_member(id):
+    member = jackson_family.get_member(id)
     if member:
-        jackson_family.delete_member(member_id)
-        return jsonify({"done": True}), 200
+        jackson_family.delete_member(id)
+        return jsonify({"done": True, "message": "Member deleted successfully"}), 200
     else:
         return jsonify({"error": "Member not found"}), 404
 
