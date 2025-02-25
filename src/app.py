@@ -77,7 +77,7 @@ def delete_member(id):
     member = jackson_family.get_member(id)
     if member:
         jackson_family.delete_member(id)
-        return jsonify({"done": True, "message": "Member deleted successfully"}), 200
+        return jsonify({"done": True}), 200
     else:
         return jsonify({"error": "Member not found"}), 404
 
